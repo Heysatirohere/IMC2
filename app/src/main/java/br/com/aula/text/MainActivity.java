@@ -32,8 +32,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void erro() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Erro de validação");
+        builder.setMessage("Dados invalidos. Favor inserir corretamente");
+
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 
     public void calcular(View view) {
+
         TextInputEditText nome = findViewById(R.id.TextInputEditNome);
         TextInputEditText peso = findViewById(R.id.TextInputEditPeso);
         TextInputEditText altura = findViewById(R.id.TextInputEditAltura);
@@ -41,12 +62,21 @@ public class MainActivity extends AppCompatActivity {
         TextView result1 = findViewById(R.id.result1);
         TextView result2 = findViewById(R.id.result2);
 
-        String nome1 = nome.getText().toString();
+
         String peso1 = peso.getText().toString();
         String altura1 = altura.getText().toString();
 
+        if (peso1.isEmpty() || altura1.isEmpty()) {
+            erro();
+            return;
+        }
         double numPeso = Double.parseDouble(peso1);
         double numAltura = Double.parseDouble(altura1);
+
+        if(numPeso < 40 || numPeso > 150 || numAltura < 1.2 || numAltura > 2.5) {
+            erro();
+            return;
+        }
         double numImc = numPeso / (numAltura * numAltura);
 
         String imc = String.valueOf(numImc);
@@ -56,55 +86,49 @@ public class MainActivity extends AppCompatActivity {
 
         result1.setText(imc);
 
+        //validador de campos
+            if(peso1 == null || altura1 == null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Erro de validação");
+                builder.setMessage("Favor inserir peso e altura");
+            }
+
+
+
 
             // Classificação do IMC
         if (numImc < 18.5) {
             result2.setText("Abaixo do peso");
             Intent intent = new Intent(this, Magreza.class);
+            intent.putExtra("imcResult", numImc );
             startActivity(intent);
         }
         else if (numImc >= 18.5 && numImc <=24.9) {
             result2.setText("Peso normal");
             Intent intent = new Intent(this, PesoNormal.class);
+            intent.putExtra("imcResult", numImc );
             startActivity(intent);
         }
         else if (numImc >= 25 && numImc <=29.9) {
             result2.setText("Sobrepeso");
             Intent intent = new Intent(this, Sobrepeso.class);
+            intent.putExtra("imcResult", numImc );
             startActivity(intent);
         }
         else if (numImc >= 30 && numImc <=34.9) {
             result2.setText("Obesidade grau 1");
             Intent intent = new Intent(this, ObesidadeI.class);
+            intent.putExtra("imcResult", numImc );
             startActivity(intent);
         }
         else if (numImc >= 35) {
             result2.setText("Obesidade grau 2");
             Intent intent = new Intent(this, ObesidadeII.class);
+            intent.putExtra("imcResult", numImc );
             startActivity(intent);
         }
 
         // Validação de campos
-        if(numPeso < 40 || numPeso > 150 || numAltura < 1.2 || numAltura > 2.5)
-        {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Erro de validação");
-            builder.setMessage("Dados invalidos. Favor inserir corretamente");
-
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    dialog.dismiss();
-                }
-            });
-
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
 
     }
 
