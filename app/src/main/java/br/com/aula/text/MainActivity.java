@@ -2,6 +2,7 @@
 package br.com.aula.text;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -59,18 +60,28 @@ public class MainActivity extends AppCompatActivity {
             // Classificação do IMC
         if (numImc < 18.5) {
             result2.setText("Abaixo do peso");
+            Intent intent = new Intent(this, Magreza.class);
+            startActivity(intent);
         }
         else if (numImc >= 18.5 && numImc <=24.9) {
             result2.setText("Peso normal");
+            Intent intent = new Intent(this, PesoNormal.class);
+            startActivity(intent);
         }
         else if (numImc >= 25 && numImc <=29.9) {
             result2.setText("Sobrepeso");
+            Intent intent = new Intent(this, Sobrepeso.class);
+            startActivity(intent);
         }
         else if (numImc >= 30 && numImc <=34.9) {
             result2.setText("Obesidade grau 1");
+            Intent intent = new Intent(this, ObesidadeI.class);
+            startActivity(intent);
         }
         else if (numImc >= 35) {
             result2.setText("Obesidade grau 2");
+            Intent intent = new Intent(this, ObesidadeII.class);
+            startActivity(intent);
         }
 
         // Validação de campos
@@ -98,10 +109,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void limpar(View view) {
-
-        TextInputEditText nome = findViewById(R.id.TextInputEditNome);
-        TextInputEditText peso = findViewById(R.id.TextInputEditPeso);
-        TextInputEditText altura = findViewById(R.id.TextInputEditAltura);
 
         TextView result1 = findViewById(R.id.result1);
         TextView result2 = findViewById(R.id.result2);
